@@ -711,10 +711,12 @@
             maximumFractionDigits: 1
           }) + "/6";
 
+
   // PRISDIAGRAM
 
   const priceItems = places
           .filter(p => p.price !== null)
+          .sort((a, b) => b.price - a.price)
           .slice(0, 12);
 
   const maxPrice = Math.max(
@@ -722,24 +724,25 @@
   );
 
   document.querySelector("#price-chart").innerHTML =
-          priceItems.map(p => `
-            <div class="bar-row">
+          priceItems.map((p, i) => `
+      <div class="bar-row">
 
-                <span class="bar-name">
-                    ${p.name}
-                </span>
+        <span class="bar-name">
+          ${p.name}
+        </span>
 
-                <div class="bar-track">
-                    <div
-                        class="bar-fill"
-                        style="width:${p.price / maxPrice * 100}%">
-                    </div>
-                </div>
+        <div class="bar-track">
+          <div
+            class="bar-fill ${i === 0 ? "highlight" : ""}"
+            style="width:${p.price / maxPrice * 100}%">
+          </div>
+        </div>
 
-                <b>${money(p.price)}</b>
+        <b>${money(p.price)}</b>
 
-            </div>
-        `).join("");
+      </div>
+    `).join("");
+
 
   // OSTEDIAGRAM
 
